@@ -16,14 +16,9 @@ class AddressBookController extends AbstractController
     {               
         $address_book = new AddressBook;
         $form = $this->createForm(AddressBookType::class, $address_book);
-        $request->request->set('surname', null); 
-        $request->request->set('email', '---');
-
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $address_book = $form->getData();
-            //$address_book->setSurname($request->request->get('surname'));
             $entityManager->persist($address_book);
             $entityManager->flush();
             return $this->redirectToRoute('address_book_table');           
@@ -92,7 +87,6 @@ class AddressBookController extends AbstractController
         $next = $first+$onpage;
         $prev = $first-$onpage;  
         if($prev<1) {$prev=1;}
-        //$address_book = $entityManager->getRepository(AddressBook::class)->findAll();
        
         $address_book = $entityManager->
         getRepository(AddressBook::class)->findBy([], ['surname' => 'ASC'], $onpage, $first-1);                                
